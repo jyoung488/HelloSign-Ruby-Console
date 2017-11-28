@@ -1,1 +1,3 @@
-require 'hello_sign'
+require_relative('menu.rb')
+
+menu
