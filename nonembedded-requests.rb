@@ -24,6 +24,7 @@ def print_signatures(request)
     Signer Name: #{sig.signer_name}
     Signer Email: #{sig.signer_email_address}
     Status: #{sig.status_code}
+    Reminded: #{sig.last_reminded_at}
 
     EOS
   end
@@ -83,4 +84,50 @@ def send_with_template
 
   print_signature_request(request)
   print_signatures(request)
+end
+
+def send_reminder(id, email)
+  client = initiate_client
+  reminder = client.remind_signature_request :signature_request_id => id, :email_address => email
+
+  print_signature_request(reminder)
+  print_signatures(reminder)
+end
+
+def update_request(request_id, sig_id, email)
+  client = initiate_client
+  request = client.update_signature_request(
+    signature_request_id: request_id,
+    signature_id: sig_id,
+    email_address: email
+  )
+
+  print_signature_request(request)
+  print_signatures(request)
+end
+
+def cancel_request(id)
+  client = initiate_client
+  request = client.cancel_signature_request :signature_request_id => id
+
+  puts "Signature Request #{id} cancelled!" if request
+end
+
+def remove_access(id)
+  client = initiate_client
+  request = client.remove_signature_request :signature_request_id => id
+
+  puts "Signature Request #{id} access removed!" if request
+end
+
+def get_files(id)
+  client = initiate_client
+  file = client.signature_request_files :signature_request_id => id, :get_url => true
+
+  puts <<-EOS
+  Access your file here:
+  #{file["file_url"]}
+
+  Expiration Date: #{DateTime.strptime(file["expires_at"].to_s, '%s')}
+  EOS
 end
