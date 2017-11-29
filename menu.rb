@@ -27,7 +27,9 @@ def selection(option)
   when "6"
     list_signature_requests
   when "7"
+    send_signature_request
   when "8"
+    send_with_template
   when "9"
   when "10"
   else
