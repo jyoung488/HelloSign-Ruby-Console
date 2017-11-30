@@ -77,9 +77,19 @@ end
 def get_template_files(id)
   client = initiate_client
   template = client.get_template_files :template_id => id, :get_url => false
-  p template
-  puts <<-EOS
-  Access your file here:
-  #{template["file_url"]}
-  EOS
+  # #get_template_files method in Ruby SDK missing functionality to handle parameters
+  # added this on 11/29, waiting to merge PR
+
+  # p template
+  # puts <<-EOS
+  # Access your file here:
+  # #{template["file_url"]}
+  # EOS
+end
+
+def update_template_files(id)
+  client = initiate_client
+  template = client.update_template_files :template_id => id, :file_url => 'http://www.pdf995.com/samples/pdf.pdf'
+
+  puts "Template ID #{template.template_id} updated!"
 end

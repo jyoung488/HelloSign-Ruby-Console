@@ -4,6 +4,7 @@ require 'date'
 require_relative('account-requests.rb')
 require_relative('nonembedded-requests.rb')
 require_relative('template-requests.rb')
+require_relative('team-requests.rb')
 
 def selection(option)
   case option
@@ -96,6 +97,23 @@ def selection(option)
     id = gets.chomp
 
     get_template_files(id)
+  when "20"
+    puts "Enter Template ID:"
+    id = gets.chomp
+
+    update_template_files(id)
+  when "21"
+    get_team
+  when "22"
+    puts "Enter team name:"
+    name = gets.chomp
+
+    create_team(name)
+  when "23"
+    puts "Enter new team name:"
+    name = gets.chomp
+
+    update_team(name)
   else
     puts "I did not understand that request"
     menu
@@ -132,6 +150,14 @@ def menu
   18 - Delete Template
   19 - Get Template Files
   20 - Update Template Files
+
+  // TEAM
+  21 - Get Team
+  22 - Create Team
+  23 - Update Team
+  24 - Delete Team
+  25 - Add User to Team
+  26 - Remove User from Team
   EOS
 
   response = input
